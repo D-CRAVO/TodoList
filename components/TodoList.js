@@ -56,6 +56,20 @@ export class TodoList {
             const t = new TodoListItem(todo)
             t.appendTo(list)
         }
+        element.querySelector('form').addEventListener('submit', e => onSubmit(e))
+    }
+
+    onSubmit(e){
+        e.preventDefault()
+        const title = new FormData(e.currentTarget).get('title').toString().trim()
+        if (title ===''){
+            return
+        }
+        const todo = {
+            id: Date.now(),
+            title,
+            completed: false
+        }
     }
 }
 
@@ -88,6 +102,9 @@ class TodoListItem {
         li.append(checkbox)
         li.append(label)
         li.append(button)
+
+        button.addEventListener('click', e => this.remove(e))
+
         this.#element = li
     }
 
@@ -97,5 +114,9 @@ class TodoListItem {
      */
     appendTo(element){
         element.append(this.#element)
+    }
+
+    remove() {
+        this.element.remove()
     }
 }
